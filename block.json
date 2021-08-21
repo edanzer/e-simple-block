@@ -1,0 +1,16 @@
+{
+	"apiVersion": 2,
+	"name": "e/e-simple-block",
+	"version": "0.1.0",
+	"title": "E Simple Block",
+	"category": "text",
+	"icon": "smiley",
+	"description": "Simple WordPress bloock using @wordpress/create-block.",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "e-simple-block",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}
