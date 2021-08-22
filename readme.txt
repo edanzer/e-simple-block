@@ -1,55 +1,21 @@
-=== Simple Block ===
-Contributors:      Erick Danzer
-Tags:              block
-Tested up to:      5.8.0
-Stable tag:        0.1.0
-License:           GPL 2.0
-License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+# Simple Block
 
-A simple WP block.
+This is a very simple WordPress block plugin based on [@wordpress/create-block](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/).
 
-== Description ==
+The goal is just to have a reference point for current best practices for block development. The block editor and block development guidelines are changing rapidly. Official docs are often out of date. It can be hard to know the 'right' way to do things. 
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+Fortunately, the @wordpress/create-block package current includes nearly all up-to-date best practices. 
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+A few points for reference: 
 
-== Installation ==
+* block.json. The latest recommendations are to store block settings - the things traditionally included in registerBlockType() - as meta data in a block.json file. But very few plugins do this. Even frameworks like create-guten-block are not doing this at present. And there is very little documentation about block.json, including how to handle multiple blocks, currently available. 
+* `register_block_type( __DIR__ )`. This function, combined with block.json, is the recommended way to register a block on ther server side. But again, nearly no plugin or frameworks currently use this.
+* The recommended to register scripts and styles is by adding them to the block metadata in block.json. This departs from long established and long documented idea of enqueuing scripts and styles. Again, very few plugins or frameworks do this. There is also confusion about how to handle scripts and styles that are used for multiple blocks. 
+* `useBlockProps()`. This is a new react hook that is now the recommended way to add block properties like class names to block containers. Historically, the save function did this automatically, and people included arguments manually within the edit function. This is not supported in any WordPress version prior to 5.8.
+* `apiVersion: 2`. The use of useBlockProps() requires that you include `apiVersion: 2` when registering a block. Otherwise it will error. 
 
-This section describes how to install the plugin and get it working.
+A main challenge is that block examples, including documenation about how to use the @wordpress/scripts package, do not use or document any of the above. 
 
-e.g.
+The create-block script from WordPress is one of the few places where you can see all these latest recommended practices in practice. 
 
-1. Upload the plugin files to the `/wp-content/plugins/simple-block` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
-
-
-== Frequently Asked Questions ==
-
-= A question that someone might have =
-
-An answer to that question.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
-
-== Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
-
-== Changelog ==
-
-= 0.1.0 =
-* Release
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+It's worth noting that this script seems to envision and account for single block plugins, rather than multi-block plugins that are more common in the ecosystem. For example, block.json is in the root directory and accounts for a single block only.
